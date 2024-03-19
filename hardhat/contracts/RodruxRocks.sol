@@ -9,7 +9,7 @@ import "./RodruxRocksDNA.sol";
 contract RodruxRocks is ERC721, ERC721Enumerable, RodruxRockDNA {
     uint256 public maxSupply;
 
-    mapping (uint256 => uint256) tokenDNA;
+    mapping(uint256 => uint256) tokenDNA;
 
     constructor(uint256 _maxSupply) ERC721("RodruxRocks", "RXRKS") {
         maxSupply = _maxSupply;
@@ -88,8 +88,9 @@ contract RodruxRocks is ERC721, ERC721Enumerable, RodruxRockDNA {
                 tokenId,
                 '", "description": "RodruxRocks are randomized Rock Avataaars stored on chain to learn DApps development", "image": "',
                 image,
-                '"attributes": []'
-                '"}'
+                '", "attributes": [{dna: ',
+                dna,
+                "}]}"
             )
         );
 
