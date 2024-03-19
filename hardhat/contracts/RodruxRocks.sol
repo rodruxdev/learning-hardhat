@@ -4,10 +4,12 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 import "./RodruxRocksDNA.sol";
 
 contract RodruxRocks is ERC721, ERC721Enumerable, RodruxRockDNA {
     uint256 public maxSupply;
+    using Strings for uint256;
 
     mapping(uint256 => uint256) tokenDNA;
 
@@ -82,19 +84,19 @@ contract RodruxRocks is ERC721, ERC721Enumerable, RodruxRockDNA {
         uint256 dna = tokenDNA[tokenId];
         string memory image = imageByDNA(dna);
 
-        string memory jsonURI = Base64.encode(
-            abi.encode(
+        string memory jsonURI = string(Base64.encode(
+            abi.encodePacked(
                 '{ "name": "RodruxRocks #',
-                tokenId,
+                tokenId.toString(),
                 '", "description": "RodruxRocks are randomized Rock Avataaars stored on chain to learn DApps development", "image": "',
                 image,
-                '", "attributes": [{dna: ',
-                dna,
-                "}]}"
+                '", "attributes": [{ "dna" : "',
+                dna.toString(),
+                '"}]}'
             )
-        );
+        ));
 
-        return string(abi.encode("data:application/json;base64,", jsonURI));
+        return string(abi.encodePacked("data:application/json;base64,", jsonURI));
     }
 
     // The following functions are overrides required by Solidity.
