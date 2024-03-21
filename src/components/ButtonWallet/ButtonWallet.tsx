@@ -1,12 +1,14 @@
 "use client";
-import { Connector, useConnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import DisconnectWallet from "./DisconnectWallet";
+import ConnectWallet from "./ConnectWallet";
 
 export function ButtonWallet() {
-  const { connectors, connect } = useConnect();
+  const { connectors } = useConnect();
+  const { isConnected } = useAccount();
+
   const connector = connectors[1];
-  return (
-    <button key={connector.uid} onClick={() => connect({ connector })}>
-      Connect Metamask
-    </button>
-  );
+  if (isConnected)
+    return <DisconnectWallet connector={connector}></DisconnectWallet>;
+  return <ConnectWallet connector={connector}></ConnectWallet>;
 }
