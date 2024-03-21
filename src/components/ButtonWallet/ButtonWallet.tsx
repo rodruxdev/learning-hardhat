@@ -1,22 +1,12 @@
-import React from "react";
+"use client";
+import { Connector, useConnect } from "wagmi";
 
-const ButtonWallet = ({
-  connected,
-  account,
-  connectWallet,
-}: {
-  connected: boolean;
-  account: string;
-  connectWallet: () => {};
-}) => {
+export function ButtonWallet() {
+  const { connectors, connect } = useConnect();
+  const connector = connectors[1];
   return (
-    <button
-      className="border-white rounded border-solid border-2 p-4"
-      onClick={connectWallet}
-    >
-      {connected ? <span>{account}</span> : <span>Connect Wallet</span>}
+    <button key={connector.uid} onClick={() => connect({ connector })}>
+      Connect Metamask
     </button>
   );
-};
-
-export default ButtonWallet;
+}
