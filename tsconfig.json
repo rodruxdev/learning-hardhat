@@ -22,7 +22,6 @@
     }
   },
   "include": [
-    "global.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
