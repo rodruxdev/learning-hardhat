@@ -1,5 +1,5 @@
 "use client";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import DisconnectWallet from "./DisconnectWallet";
 import ConnectWallet from "./ConnectWallet";
 
