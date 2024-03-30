@@ -1,21 +1,46 @@
 import { config } from "@/config";
 import { readContract } from "@wagmi/core";
-import { wagmiContractConfig } from "@/wagmiContractConfig";
-import { getClient } from "wagmi/actions";
+import {
+  wagmiReadContractConfig,
+  wagmiWriteContractConfig,
+} from "@/wagmiContractConfig";
 import { type ReadContractParameters } from "@wagmi/core";
-import { abi } from "@/abi";
-import { localhost } from "wagmi/chains";
+import { type WriteContractParameters } from "@wagmi/core";
+import { useAccount, useWriteContract } from "wagmi";
+import { useCallback } from "react";
 
 export function useRodruxRocks() {
-  const getTotalSupply = async () => {
+  const { address, chainId } = useAccount();
+  const { data, writeContractAsync, isPending } = useWriteContract();
+
+  const getTotalSupply = useCallback(async () => {
     const params: ReadContractParameters = {
-      ...wagmiContractConfig,
+      ...wagmiReadContractConfig,
       functionName: "totalSupply",
+      chainId,
     };
     const totalSupply = await readContract(config, params);
 
     return totalSupply;
+  }, [chainId]);
+
+  const mintRodruxRock = async (onMint: () => void) => {
+    if (!address) {
+      console.log("Connect your wallet");
+      return;
+    }
+    try {
+      const params: WriteContractParameters = {
+        ...wagmiWriteContractConfig,
+        functionName: "mint",
+        account: address,
+        chainId,
+      };
+      await writeContractAsync(params);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  return { getTotalSupply };
+  return { getTotalSupply, mintRodruxRock, isPending, data };
 }

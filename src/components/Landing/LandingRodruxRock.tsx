@@ -2,9 +2,12 @@
 import { useGenerateFromDNA } from "@/hooks/useGenerateFromDNA";
 import Image from "next/image";
 import React from "react";
+import MintButton from "./MintButton";
+import { useRodruxRocks } from "@/hooks/useRodruxRocks";
 
 const LandingRodruxRock = () => {
-  const { dna, image } = useGenerateFromDNA();
+  const { mintRodruxRock, isPending } = useRodruxRocks();
+  const { image } = useGenerateFromDNA();
   return (
     <div>
       {image && (
@@ -17,7 +20,10 @@ const LandingRodruxRock = () => {
           priority
         ></Image>
       )}
-      <p>{dna}</p>
+      <MintButton
+        mintRodruxRock={mintRodruxRock}
+        isPending={isPending}
+      ></MintButton>
     </div>
   );
 };

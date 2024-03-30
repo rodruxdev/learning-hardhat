@@ -1,5 +1,5 @@
 import { http, createConfig } from "wagmi";
-import { localhost } from "wagmi/chains";
+import { hardhat } from "wagmi/chains";
 
 declare module "wagmi" {
   interface Register {
@@ -8,9 +8,9 @@ declare module "wagmi" {
 }
 
 export const config = createConfig({
-  chains: [localhost],
+  chains: [hardhat],
   transports: {
-    [localhost.id]: http(),
+    [hardhat.id]: http(),
     // [sepolia.id]: http(),
   },
 });
