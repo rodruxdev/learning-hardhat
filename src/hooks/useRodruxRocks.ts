@@ -13,15 +13,17 @@ export function useRodruxRocks() {
   const { address, chainId } = useAccount();
   const { data, writeContractAsync, isPending } = useWriteContract();
 
-  const getTotalSupply = useCallback(async () => {
+  const getTotalSupply = useCallback(async (): Promise<number> => {
     const params: ReadContractParameters = {
       ...wagmiReadContractConfig,
       functionName: "totalSupply",
       chainId,
     };
     const totalSupply = await readContract(config, params);
-
-    return totalSupply;
+    if (typeof totalSupply === "bigint") {
+      return Number(totalSupply);
+    }
+    return -1;
   }, [chainId]);
 
   const mintRodruxRock = async (onMint: () => void) => {

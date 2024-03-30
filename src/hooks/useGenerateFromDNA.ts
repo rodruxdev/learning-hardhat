@@ -20,8 +20,11 @@ export function useGenerateFromDNA() {
       setDna("");
       return;
     }
-
     const totalSupply = await getTotalSupply();
+    if (totalSupply < 0) {
+      setDna("");
+      return;
+    }
     const params: ReadContractParameters = {
       ...wagmiReadContractConfig,
       functionName: "deterministicPseudoRandomDNA",
