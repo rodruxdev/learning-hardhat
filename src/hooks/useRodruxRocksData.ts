@@ -21,7 +21,8 @@ export const useRodruxRocksData = () => {
   const { chainId } = useAccount();
   const [rodruxRocks, setRodruxRocks] = useState<RodruxRock[]>([]);
   const pathname = usePathname();
-  const getRodruxRockData = useCallback(
+
+  const getRodruxRockData: (id: number) => Promise<RodruxRock> = useCallback(
     async (id: number): Promise<RodruxRock> => {
       const ownerParams: ReadContractParameters = {
         ...wagmiReadContractConfig,
@@ -113,5 +114,5 @@ export const useRodruxRocksData = () => {
     getAllRodruxRocks();
   }, [getAllRodruxRocks]);
 
-  return { rodruxRocks };
+  return { rodruxRocks, getRodruxRockData };
 };
